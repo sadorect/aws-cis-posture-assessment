@@ -1,0 +1,30 @@
+[1m-> [1mUsing the AWS credentials below:[0m[0m
+[1m[0m  · AWS-CLI Profile: [33mdefault[0m[1m[0m
+[1m[0m  · AWS Regions: [33meu-west-2[0m[1m[0m
+[1m[0m  · AWS Account: [33m671154999764[0m[1m[0m
+[1m[0m  · User Id: [33mAIDAZYQ7USHKDSLXWCLWX[0m[1m[0m
+[1m[0m  · Caller Identity ARN: [33marn:aws:iam::671154999764:user/scanner-identity[0m[1m[0m
+
+[1m-> [1mUsing the following configuration:[0m[0m
+[1m[0m  · Config File: [33m/home/prowler/prowler/config/config.yaml[0m[1m[0m
+[1m[0m  · Mutelist File: [33m/home/prowler/prowler/config/aws_mutelist.yaml[0m[1m[0m
+[1m[0m  · Scanning unused services and resources: [33mTrue[0m[1m[0m
+
+[1mExecuting 78 checks, please wait...[0m
+-> [32mScan completed![0m |▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉| 78/78 [100%] in 8.8s 
+
+Overview Results:
+╭────────────────────┬────────────────────┬────────────────╮
+│ [31m23.17% (19) Failed[0m │ [32m76.83% (63) Passed[0m │ [38;5;208m0.0% (0) Muted[0m │
+╰────────────────────┴────────────────────┴────────────────╯
+
+Account [33m671154999764[0m Scan Results (severity columns are for fails only):
+╭────────────┬───────────┬───────────┬────────────┬────────┬──────────┬───────┬─────────╮
+│ Provider   │ Service   │ Status    │   Critical │   High │   Medium │   Low │   Muted │
+├────────────┼───────────┼───────────┼────────────┼────────┼──────────┼───────┼─────────┤
+│ aws        │ ec2       │ [31mFAIL (19)[0m │          [91m0[0m │     [31m11[0m │        [33m7[0m │     [34m1[0m │       [38;5;208m0[0m │
+╰────────────┴───────────┴───────────┴────────────┴────────┴──────────┴───────┴─────────╯
+[1m* You only see here those services that contains resources.[0m
+
+Detailed results are in:
+ - CSV: /home/prowler/output/sg_addendum.csv
