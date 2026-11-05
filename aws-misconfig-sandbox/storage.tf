@@ -24,17 +24,17 @@ resource "aws_s3_bucket" "public_data" {
   }
 }
 
-# S1: Block Public Access explicitly disabled on every setting
+# S1 [REMEDIATED Day 8, B04]: Block Public Access enabled on every setting
 resource "aws_s3_bucket_public_access_block" "public_data" {
   bucket = aws_s3_bucket.public_data.id
 
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
-# S3: bucket ACL set to public-read
+# S3 [REMEDIATED Day 8, B04]: bucket ACL reset to private
 resource "aws_s3_bucket_ownership_controls" "public_data" {
   bucket = aws_s3_bucket.public_data.id
 
@@ -45,7 +45,7 @@ resource "aws_s3_bucket_ownership_controls" "public_data" {
 
 resource "aws_s3_bucket_acl" "public_data" {
   bucket = aws_s3_bucket.public_data.id
-  acl    = "public-read"
+  acl    = "private"
 
   depends_on = [
     aws_s3_bucket_ownership_controls.public_data,
@@ -53,25 +53,7 @@ resource "aws_s3_bucket_acl" "public_data" {
   ]
 }
 
-# S2: bucket policy allows anonymous read
-resource "aws_s3_bucket_policy" "public_data" {
-  bucket = aws_s3_bucket.public_data.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Sid       = "PublicRead"
-        Effect    = "Allow"
-        Principal = "*"
-        Action    = ["s3:GetObject"]
-        Resource  = "${aws_s3_bucket.public_data.arn}/*"
-      }
-    ]
-  })
-
-  depends_on = [aws_s3_bucket_public_access_block.public_data]
-}
+# S2 [REMEDIATED Day 8, B04]: the anonymous-read bucket policy was deleted.
 
 # S4: no aws_s3_bucket_server_side_encryption_configuration resource declared
 # S5: no aws_s3_bucket_versioning resource declared
@@ -87,4 +69,13 @@ resource "aws_ebs_volume" "unencrypted" {
   tags = {
     Name = "${var.name_prefix}-unencrypted-volume"
   }
+}
+
+# B06 [Day 8]: account-level Block Public Access, so no bucket in the account can be
+# made public by mistake. Baseline had no account-level setting (CIS 2.1.4).
+resource "aws_s3_account_public_access_block" "account" {
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }

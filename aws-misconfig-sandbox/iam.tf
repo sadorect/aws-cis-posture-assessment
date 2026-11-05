@@ -12,56 +12,8 @@
 
 data "aws_caller_identity" "current" {}
 
-# I1: wildcard managed policy
-resource "aws_iam_policy" "admin_wildcard" {
-  name        = "${var.name_prefix}-admin-wildcard"
-  description = "Deliberately over-permissive policy for sandbox findings"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Sid      = "FullAdmin"
-        Effect   = "Allow"
-        Action   = "*"
-        Resource = "*"
-      }
-    ]
-  })
-}
-
-# I2/I3: standing IAM user with wildcard access and a static access key
-resource "aws_iam_user" "sandbox_admin" {
-  name = "${var.name_prefix}-admin-user"
-  path = "/"
-}
-
-resource "aws_iam_user_policy_attachment" "sandbox_admin_attach" {
-  user       = aws_iam_user.sandbox_admin.name
-  policy_arn = aws_iam_policy.admin_wildcard.arn
-}
-
-# I2: redundant inline wildcard policy on top of the managed one
-resource "aws_iam_user_policy" "inline_wildcard" {
-  name = "${var.name_prefix}-inline-wildcard"
-  user = aws_iam_user.sandbox_admin.name
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect   = "Allow"
-        Action   = "*"
-        Resource = "*"
-      }
-    ]
-  })
-}
-
-# I3: long-lived access key, never rotated, no last-used monitoring configured
-resource "aws_iam_access_key" "sandbox_admin_key" {
-  user = aws_iam_user.sandbox_admin.name
-}
+# I1/I2/I3 [REMEDIATED Day 8, B03]: the wildcard managed policy, the inline wildcard policy,
+# the IAM user and its static access key were deleted. Nothing used them.
 
 # I5/I6: role assumable by any principal in this account, carrying admin rights
 resource "aws_iam_role" "overly_permissive" {
@@ -86,6 +38,15 @@ resource "aws_iam_role_policy_attachment" "overly_permissive_admin" {
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
-# I4: account password policy intentionally left at AWS defaults —
-# no aws_iam_account_password_policy resource is declared, so minimum
-# length / rotation / reuse-prevention / MFA are not enforced by IaC.
+# I4 [REMEDIATED Day 8, B16]: account password policy (CIS 1.8, 1.9).
+# No forced expiry (max_password_age = 0): current NIST SP 800-63B guidance advises against it.
+resource "aws_iam_account_password_policy" "strict" {
+  minimum_password_length        = 14
+  password_reuse_prevention      = 24
+  require_lowercase_characters   = true
+  require_uppercase_characters   = true
+  require_numbers                = true
+  require_symbols                = true
+  allow_users_to_change_password = true
+  max_password_age               = 0
+}

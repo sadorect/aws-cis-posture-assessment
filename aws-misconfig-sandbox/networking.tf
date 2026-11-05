@@ -19,23 +19,13 @@ resource "aws_vpc" "sandbox" {
   }
 }
 
-# N2: default SG is left in its wide-open state instead of being locked down
+# N2 [REMEDIATED Day 8, B13]: default SG emptied (no ingress or egress rules), per CIS 5.5
 resource "aws_default_security_group" "default" {
   vpc_id = aws_vpc.sandbox.id
 
-  ingress {
-    protocol  = -1
-    self      = true
-    from_port = 0
-    to_port   = 0
-  }
-
-  egress {
-    protocol    = -1
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  # Explicit empty lists: omitting the blocks would leave the existing rules in place.
+  ingress = []
+  egress  = []
 }
 
 resource "aws_internet_gateway" "sandbox" {
@@ -103,51 +93,15 @@ resource "aws_network_acl" "wide_open" {
   }
 }
 
-# N3: security group wide open to the internet on admin + database ports
+# N3 [REMEDIATED Day 8, B09]: the internet-open ingress rules (22, 3389, 3306, 5432, 0-65535)
+# were removed. The group is unattached, so it keeps no ingress rules at all.
 resource "aws_security_group" "wide_open" {
   name        = "${var.name_prefix}-wide-open-sg"
   description = "Sandbox SG with deliberately permissive rules"
   vpc_id      = aws_vpc.sandbox.id
 
-  ingress {
-    description = "SSH open to the world"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "RDP open to the world"
-    from_port   = 3389
-    to_port     = 3389
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "MySQL/Aurora open to the world"
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "Postgres open to the world"
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "All ports open to the world, mislabeled as a management-only range"
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  # Explicit empty list: omitting the blocks would leave the existing rules in place.
+  ingress = []
 
   egress {
     from_port   = 0

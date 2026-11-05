@@ -74,3 +74,19 @@ scanner or test writes objects into it via the public write policy.
   applied — destroy it promptly after the scan/training session.
 - Treat `terraform.tfstate` as sensitive: it contains the IAM user's
   secret access key in plaintext.
+
+## Remediation status (Day 8)
+
+The Terraform in this directory now carries the Day 8 fixes. The pre-remediation
+code is preserved in `../evidence/terraform-baseline/`.
+
+| Backlog | Change |
+|---|---|
+| B03 | Wildcard managed and inline policies, the admin IAM user and its access key deleted |
+| B04 | Bucket Block Public Access on, public-read policy deleted, ACL private |
+| B06 | Account-level S3 Block Public Access added |
+| B09 | Internet-open ingress rules removed from `wide_open` security group |
+| B13 | Sandbox default security group emptied |
+| B16 | Account password policy added (14+ characters, 24-password history) |
+
+Not done this sprint, by the backlog: B05, B10-B15, B17, B18 (see `../docs/day7_remediation_backlog.md`).
