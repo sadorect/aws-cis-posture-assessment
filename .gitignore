@@ -6,3 +6,5 @@
 **/*.tfstate.*
 **/*.tfvars
 **/crash.log
+# Editor lock files
+.~lock.*
