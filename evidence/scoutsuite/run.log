@@ -1,0 +1,37 @@
+2026-11-05 04:14:28 casper-engine scout[2839003] INFO Launching Scout
+2026-11-05 04:14:28 casper-engine scout[2839003] INFO Authenticating to cloud provider
+2026-11-05 04:14:32 casper-engine scout[2839003] INFO Gathering data from APIs
+2026-11-05 04:14:32 casper-engine scout[2839003] INFO Fetching resources for the ACM service
+2026-11-05 04:14:33 casper-engine scout[2839003] INFO Fetching resources for the Lambda service
+2026-11-05 04:14:33 casper-engine scout[2839003] INFO Fetching resources for the CloudFormation service
+2026-11-05 04:14:33 casper-engine scout[2839003] INFO Fetching resources for the CloudTrail service
+2026-11-05 04:14:34 casper-engine scout[2839003] INFO Fetching resources for the CloudWatch service
+2026-11-05 04:14:34 casper-engine scout[2839003] INFO Fetching resources for the CloudFront service
+2026-11-05 04:14:34 casper-engine scout[2839003] INFO Fetching resources for the CodeBuild service
+2026-11-05 04:14:35 casper-engine scout[2839003] INFO Fetching resources for the Config service
+2026-11-05 04:14:35 casper-engine scout[2839003] INFO Fetching resources for the Direct Connect service
+2026-11-05 04:14:35 casper-engine scout[2839003] INFO Fetching resources for the DynamoDB service
+2026-11-05 04:14:36 casper-engine scout[2839003] INFO Fetching resources for the EC2 service
+2026-11-05 04:14:36 casper-engine scout[2839003] INFO Fetching resources for the EFS service
+2026-11-05 04:14:36 casper-engine scout[2839003] INFO Fetching resources for the ElastiCache service
+2026-11-05 04:14:37 casper-engine scout[2839003] INFO Fetching resources for the ELB service
+2026-11-05 04:14:37 casper-engine scout[2839003] INFO Fetching resources for the ELBv2 service
+2026-11-05 04:14:37 casper-engine scout[2839003] INFO Fetching resources for the EMR service
+2026-11-05 04:14:38 casper-engine scout[2839003] INFO Fetching resources for the IAM service
+2026-11-05 04:14:38 casper-engine scout[2839003] INFO Fetching resources for the KMS service
+2026-11-05 04:14:38 casper-engine scout[2839003] INFO Fetching resources for the RDS service
+2026-11-05 04:14:38 casper-engine scout[2839003] INFO Fetching resources for the RedShift service
+2026-11-05 04:14:39 casper-engine scout[2839003] INFO Fetching resources for the Route53 service
+2026-11-05 04:14:39 casper-engine scout[2839003] INFO Fetching resources for the S3 service
+2026-11-05 04:14:41 casper-engine scout[2839003] INFO Fetching resources for the SES service
+2026-11-05 04:14:41 casper-engine scout[2839003] INFO Fetching resources for the SNS service
+2026-11-05 04:14:41 casper-engine scout[2839003] INFO Fetching resources for the SQS service
+2026-11-05 04:14:42 casper-engine scout[2839003] INFO Fetching resources for the VPC service
+2026-11-05 04:14:42 casper-engine scout[2839003] INFO Fetching resources for the Secrets Manager service
+2026-11-05 04:15:07 casper-engine scout[2839003] INFO Running pre-processing engine
+2026-11-05 04:15:07 casper-engine scout[2839003] INFO Running rule engine
+2026-11-05 04:15:10 casper-engine scout[2839003] INFO Applying display filters
+2026-11-05 04:15:10 casper-engine scout[2839003] INFO Running post-processing engine
+2026-11-05 04:15:10 casper-engine scout[2839003] INFO Saving data to scoutsuite/scoutsuite-results/scoutsuite_results_aws-scanner.js
+2026-11-05 04:15:10 casper-engine scout[2839003] INFO Saving data to scoutsuite/scoutsuite-results/scoutsuite_exceptions_aws-scanner.js
+2026-11-05 04:15:10 casper-engine scout[2839003] INFO Creating scoutsuite/aws-scanner.html
