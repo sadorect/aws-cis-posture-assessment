@@ -1,0 +1,45 @@
+# Applied to narration audio only (subtitles keep the original spelling). Whole-word, case-sensitive.
+CIS: C I S
+IAM: I A M
+MFA: M F A
+AWS: A W S
+S3: S three
+EBS: E B S
+KMS: K M S
+VPC: V P C
+ACL: A C L
+ACLs: A C Ls
+SSH: S S H
+RDP: R D P
+SQL: sequel
+MySQL: My S Q L
+PostgreSQL: Postgres
+CSV: C S V
+JSON: J S O N
+HTML: H T M L
+OCSF: O C S F
+YAML: yam-ul
+CLI: C L I
+CI: C I
+GRC: G R C
+ISO: I S O
+NIST: nist
+KISA: kisa
+P0: P zero
+P1: P one
+P2: P two
+v8: version eight
+v4.0: version four point zero
+"4.0": four point zero
+"403": four oh three
+eu-west-2: eu west two
+TTS: T T S
+Terraform: Terraform
+ScoutSuite: Scout Suite
+CloudTrail: Cloud Trail
+CloudWatch: Cloud Watch
+Docker: Docker
+Git: Git
+SHA-256: S H A two fifty six
+UTC: U T C
+OK: okay
