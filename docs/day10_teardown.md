@@ -29,7 +29,6 @@
 Two fixes were real changes to the real account, not sandbox resources, and remain in place: the account-level S3 Block Public Access (B06) and the password policy (B16). They are no longer managed by this Terraform state.
 
 ## Follow-ups
-- **Remove the elevated access:** `sandbox-builders` still carries `AdministratorAccess`. Remove the policy from the group, or remove `cloud-project-admin` from it, now that the build is finished. This is an IAM change in your account, so it is yours to make.
-- **KMS key:** it stays in "pending deletion" until 2026-12-05. That is expected and costs almost nothing.
-- **Terraform config:** `aws-misconfig-sandbox/` still declares the two kept resources. The state no longer tracks them, so applying that config would conflict with what already exists. Do not re-apply it as-is. The pre-remediation code is preserved in `evidence/terraform-baseline/` and in git history.
-- **Open items:** B05, B07, B08 (direct attachment), B10 to B12, B14, B15, B17 and B18 stay on the hardening roadmap.
+- **AWS account closed:** the account has since been closed, so nothing is pending in AWS. The elevated build access on `sandbox-builders`, the KMS key's pending deletion and the two kept hardening settings are all moot, and no credentials remain to remove or rotate.
+- **Terraform config:** `aws-misconfig-sandbox/` is kept as a record only. Do not re-apply it. The pre-remediation code is preserved in `evidence/terraform-baseline/` and in git history.
+- **Open items:** B05, B07, B08 (direct attachment), B10 to B12, B14, B15, B17 and B18 stay on the hardening roadmap as recommendations for the simulated client.
