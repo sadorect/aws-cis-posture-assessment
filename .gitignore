@@ -1,0 +1,8 @@
+# Third-party brief, not ours to publish
+*.docx
+# Terraform runtime state and caches (state can hold secrets)
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.*
+**/*.tfvars
+**/crash.log
