@@ -1,0 +1,38 @@
+# Prowler mutelist — engagement 671154999764 / cis_4.0_aws
+# Every entry carries a written justification (see docs/day6_false_positive_register.md).
+# Deliberately NOT muted: acl-0f4b13a4091768a56 (custom open NACL on the sandbox subnet),
+# sg-0e69af95c695f533e (sandbox default SG) and every planted sandbox finding —
+# those stay visible so the Day 9 before/after delta is honest.
+Mutelist:
+  Accounts:
+    "671154999764":
+      Checks:
+        # FP-01 ACCEPTED RISK: AWS default NACL of the default VPC (allow-all is the AWS default).
+        #   Compensating control: security groups are the working control; 0 ENIs / 0 instances exist.
+        # FP-02 FALSE POSITIVE: default NACL of the sandbox VPC has 0 subnet associations,
+        #   so it is not in any traffic path (sandbox subnet uses custom acl-0f4b13a4091768a56).
+        "ec2_networkacl_allow_ingress_any_port":
+          Regions: ["eu-west-2"]
+          Resources: ["acl-09b888c3ebaf97154", "acl-0100a9fc704bbef7f"]
+        "ec2_networkacl_allow_ingress_tcp_port_22":
+          Regions: ["eu-west-2"]
+          Resources: ["acl-09b888c3ebaf97154", "acl-0100a9fc704bbef7f"]
+        "ec2_networkacl_allow_ingress_tcp_port_3389":
+          Regions: ["eu-west-2"]
+          Resources: ["acl-09b888c3ebaf97154", "acl-0100a9fc704bbef7f"]
+        # FP-03 ACCEPTED RISK: default SG of the default VPC. Only rule is the AWS-default
+        #   self-reference (no 0.0.0.0/0); attached to 0 network interfaces; cannot be deleted.
+        "ec2_securitygroup_default_restrict_traffic":
+          Regions: ["eu-west-2"]
+          Resources: ["sg-0a6efd621216a4c60"]
+        # FP-04 NOT APPLICABLE: no SAML identity provider and no AWS Organization exist;
+        #   federation is out of scope for this single-account engagement.
+        "iam_check_saml_providers_sts":
+          Regions: ["*"]
+          Resources: ["*"]
+        # FP-05 BY DESIGN: the brief mandates attaching SecurityAudit and ViewOnlyAccess to the
+        #   scanner identity. Compensating control: both are AWS read-only policies.
+        #   Other users' direct attachments are real findings and are NOT muted.
+        "iam_policy_attached_only_to_group_or_roles":
+          Regions: ["*"]
+          Resources: ["scanner-identity.*"]
