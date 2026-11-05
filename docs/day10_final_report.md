@@ -3,14 +3,14 @@
 **Client:** VaultBridge Financial (simulated fintech) · **Account:** 671154999764, `eu-west-2`
 **Benchmark:** CIS AWS Foundations Benchmark v4.0 (`cis_4.0_aws`), pinned for the whole engagement
 **Tools:** Prowler 5.48.0 (source of truth for the score), ScoutSuite 5.14.0 (corroboration), Terraform
-**Status:** DRAFT. Three figures await a clean re-run after the IAM credential report refreshes (about 07:41 UTC on 2026-11-05). They are marked **[pending]**.
+**Status:** Final measurement complete (2026-11-05, 07:42 UTC credential-report refresh). Sandbox teardown is the remaining step.
 
 ## 1. Executive summary
 
 VaultBridge's AWS account was built quickly and never assessed against a security baseline. We scanned it read-only against CIS AWS Foundations v4.0, triaged the results by real-world risk, fixed the highest-priority items in a controlled way, and re-scanned to prove the improvement.
 
 - **Starting point:** 62 failing checks out of 109, including 3 critical and 15 high.
-- **After remediation:** 41 failing checks counted out of 105 (51 raw, with 10 deliberately suppressed and documented). Critical findings fell from 3 to 2, high from 15 to 7. **[pending]** Three more rows should clear once the credential report refreshes, taking the count to 38 and critical to 1.
+- **After remediation:** 38 failing checks counted out of 100 (48 raw, with 10 deliberately suppressed and documented). Critical findings fell from 3 to 1, high from 15 to 5, with no new failures. A first verification run read 41 because of a stale cached report; the final run after the refresh confirmed 38.
 - **Biggest wins:** the sandbox data bucket is no longer publicly readable, the internet-open firewall rules are gone, the wildcard administrator user and its long-lived key are deleted, root and administrator logins now require MFA, and the account has a password policy.
 - **What remains:** logging and monitoring (21 findings) is the largest block and is deferred to the roadmap, along with several smaller hardening items. The scanner identity still has a console password without MFA.
 - **Decisions needed from leadership:** approve the logging and monitoring work (roadmap phase 1), and accept or fund the remaining risks in section 7.
@@ -31,14 +31,14 @@ VaultBridge's AWS account was built quickly and never assessed against a securit
 
 The first Prowler run did not evaluate security groups, because Prowler skips unattached groups by default. It reported 57 failures out of 96. We re-ran with `--scan-unused-services`, which found 5 more failures, and adopted that as the official baseline: **62 failing of 109**. The first run is kept for the record. Both baselines are immutable and hashed.
 
-| CIS section | Failing at baseline | Failing at verification |
+| CIS section | Failing at baseline | Failing at final verification |
 |---|---|---|
-| 1 Identity and Access Management | 18 | 11 |
+| 1 Identity and Access Management | 18 | 8 |
 | 2 Storage | 6 | 4 |
 | 3 Logging | 9 | 9 |
 | 4 Monitoring | 16 | 16 |
 | 5 Networking | 14 | 11 |
-| **Total** | **63** | **51** |
+| **Total** | **63** | **48** |
 
 These counts are raw (muted rows included) and by CIS requirement. One security-group check maps to two requirements, so the baseline reads 63 here against 62 findings elsewhere.
 
@@ -64,13 +64,13 @@ Assumption: the sandbox bucket holds no real data. It was scored as if it held c
 | B09 | Removed 5 internet-open rules from the sandbox security group | Verified by both tools |
 | B13 | Emptied the sandbox default security group | Verified |
 | B16 | Password policy: 14+ characters, 24-password history | Verified |
-| B01 | Root MFA (hardware) | Hardware check passes. Root MFA row **[pending]** |
-| B02 | MFA on `cloud-project-admin`; administrator rights moved to a group | Direct-attachment row passes. MFA row **[pending]** |
-| B08 | MFA on `cloudproject` | **[pending]**. Direct policy attachment remains open |
+| B01 | Root MFA (hardware) | Verified: both root MFA checks pass |
+| B02 | MFA on `cloud-project-admin`; administrator rights moved to a group | Verified |
+| B08 | MFA on `cloudproject` | MFA verified. Direct policy attachment remains open |
 
 Every infrastructure change went through Terraform, and Terraform reports no drift from the live account. The full record, with before and after values, is `docs/day8_change_log.md`.
 
-**Three rows measured against a stale credential report:** Prowler reads the IAM credential report, which AWS caches for four hours. The report predates the MFA registrations. Direct API evidence shows the MFA devices are in place. The measured figure stays at 41 until a re-run after about 07:41 UTC confirms the three rows.
+**A stale credential report hid three fixes:** Prowler reads the IAM credential report, which AWS caches for four hours. The first verification run read a report generated before the MFA devices were registered, so three MFA rows still failed (41 counted). After the report refreshed at 07:42 UTC the final run cleared all three (38 counted), matching the direct API evidence. Five PASS rows for the deleted admin user, kept alive by the stale report, also disappeared.
 
 ## 6. Framework mapping
 
@@ -126,6 +126,6 @@ Every backlog item is mapped in `backlog/remediation_backlog.csv`. CIS AWS 4.0 a
 | Security-group addendum | `evidence/baseline-addendum/` |
 | ScoutSuite baseline | `evidence/scoutsuite/` |
 | Mutelist, exceptions, tuned re-scan | `evidence/tuning/` |
-| Verification run | `evidence/verification/` |
+| Verification runs | `evidence/verification/` (first, stale credential report), `evidence/verification-final/` (final) |
 | Pre-remediation Terraform | `evidence/terraform-baseline/` |
 | Triage, register, backlog, change log, verification | `docs/day5_triage.md` through `docs/day9_verification.md`, `backlog/remediation_backlog.csv` |

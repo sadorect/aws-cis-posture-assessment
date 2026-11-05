@@ -32,6 +32,6 @@ Decision needed: B10 needs agreement on log retention and who receives alarms.
 - **Quarterly retest** against the pinned benchmark, then a planned move to a newer CIS version with a new baseline.
 
 ## Measures of success
-- Failing checks, counted: 41 now (38 **[pending]**), target below 10 after Phases 1 and 2.
-- Critical and high findings: 2 and 7 now (1 and 5 **[pending]**), target zero critical and none open without an owner.
+- Failing checks, counted: 38 now (from 62 at baseline), target below 10 after Phases 1 and 2.
+- Critical and high findings: 1 and 5 now (from 3 and 15), target zero critical and none open without an owner.
 - Every accepted risk has a written reason, a compensating control and a review date.
