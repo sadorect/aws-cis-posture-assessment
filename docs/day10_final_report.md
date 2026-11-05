@@ -3,7 +3,7 @@
 **Client:** VaultBridge Financial (simulated fintech) · **Account:** 671154999764, `eu-west-2`
 **Benchmark:** CIS AWS Foundations Benchmark v4.0 (`cis_4.0_aws`), pinned for the whole engagement
 **Tools:** Prowler 5.48.0 (source of truth for the score), ScoutSuite 5.14.0 (corroboration), Terraform
-**Status:** Final measurement complete (2026-11-05, 07:42 UTC credential-report refresh). Sandbox teardown is the remaining step.
+**Status:** Final. Measurement complete (2026-11-05, 07:42 UTC credential-report refresh) and the sandbox is torn down and verified (`docs/day10_teardown.md`).
 
 ## 1. Executive summary
 

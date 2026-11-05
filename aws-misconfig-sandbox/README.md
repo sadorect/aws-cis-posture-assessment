@@ -90,3 +90,13 @@ code is preserved in `../evidence/terraform-baseline/`.
 | B16 | Account password policy added (14+ characters, 24-password history) |
 
 Not done this sprint, by the backlog: B05, B10-B15, B17, B18 (see `../docs/day7_remediation_backlog.md`).
+
+## Teardown (Day 10)
+
+The sandbox was destroyed on 2026-11-05 and verified from the read-only scanner
+profile (see `../docs/day10_teardown.md`). Two resources in this configuration,
+`aws_s3_account_public_access_block.account` and
+`aws_iam_account_password_policy.strict`, were removed from Terraform state on
+purpose and still exist in the account as real hardening. Do not re-apply this
+configuration as-is: it would conflict with them. The pre-remediation code is in
+`../evidence/terraform-baseline/`.
